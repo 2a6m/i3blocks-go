@@ -114,6 +114,6 @@ func main() {
 		color = "#000000"
 	}
 
-	fmt.Fprintf(os.Stdout, "%s\n%s\n%si\n", fullText, shortText, color)
+	fmt.Fprintf(os.Stdout, "%s\n%s\n%s\n", fullText, shortText, color)
 	os.Exit(0)
 }
