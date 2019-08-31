@@ -79,7 +79,7 @@ func main() {
 		// Write an error to STDERR, fallback display values
 		// to STDOUT and exit with failure code.
 		fmt.Fprintf(os.Stderr, "[i3blocks-go] Failed to get volume: %s", err.Error())
-		fmt.Fprintf(os.Stdout, "%s\n%s\n", fullText, shortText)
+		fmt.Fprintf(os.Stdout, "%s\n%s\n%s\n", fullText, shortText, color)
 		os.Exit(0)
 	}
 
@@ -95,6 +95,6 @@ func main() {
 	}
 
 	// Write out gathered information to STDOUT.
-	fmt.Fprintf(os.Stdout, "%s\n%s\n%s", fullText, shortText, color)
+	fmt.Fprintf(os.Stdout, "%s\n%s\n%s\n", fullText, shortText, color)
 	os.Exit(0)
 }

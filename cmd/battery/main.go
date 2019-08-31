@@ -99,7 +99,7 @@ func main() {
 	b, err := battery()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "[i3blocks-go] Failed to read battery files: %s", err.Error())
-		fmt.Fprintf(os.Stdout, "%s\n%s\n%s", fullText, shortText, color)
+		fmt.Fprintf(os.Stdout, "%s\n%s\n%s\n", fullText, shortText, color)
 		os.Exit(0)
 	}
 
@@ -114,6 +114,6 @@ func main() {
 		color = "#000000"
 	}
 
-	fmt.Fprintf(os.Stdout, "%s\n%s\n%s", fullText, shortText, color)
+	fmt.Fprintf(os.Stdout, "%s\n%s\n%si\n", fullText, shortText, color)
 	os.Exit(0)
 }
