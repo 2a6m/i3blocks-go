@@ -16,6 +16,7 @@ func main() {
 	// Set display texts to defaults.
 	var fullText string
 	var shortText string
+	var color string = "#ffffff"
 
 	// Retrieve current time.
 	nowTime := time.Now()
@@ -31,6 +32,6 @@ func main() {
 	}
 
 	// Write out gathered information to STDOUT.
-	fmt.Fprintf(os.Stdout, "%s\n%s\n", fullText, shortText)
+	fmt.Fprintf(os.Stdout, "%s\n%s\n%s\n", fullText, shortText, color)
 	os.Exit(0)
 }
