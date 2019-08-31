@@ -91,7 +91,7 @@ func main() {
 
 	// flags
 	var notificationFlag = flag.Bool("notification", false, "Pass -notification to send notifiaction when battery is low")
-	var levelFlag = flag.Int("level", 15, "Pass -level to set the notification trigger level")
+	var levelFlag = flag.Int("level", 15, "Set -level to set the notification trigger level")
 	flag.Parse()
 
 	// Read charging status information from kernel
