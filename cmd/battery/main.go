@@ -1,12 +1,14 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 	"strconv"
 
 	"io/ioutil"
 	"path/filepath"
+	"os/exec"
 )
 
 const sysfs = "/sys/class/power_supply"
@@ -45,6 +47,19 @@ func getBatteryFiles() ([]string, error) {
 	return bFiles, err
 }
 
+func notify(title, msg string) (string, error) {
+	cmd := exec.Command("notify-send", "--urgency=critical", title, msg)
+	bout, err := cmd.Output()
+	out := string(bout)
+	if err != nil {
+		return out, err
+	}
+	if out != "" {
+		return out, nil
+	}
+	return  "", nil
+}
+
 func battery() (float64, error) {
 	batteryFiles, err := getBatteryFiles()
 	if err != nil {
@@ -74,6 +89,10 @@ func main() {
 	var shortText string = "error"
 	var color string = "#ff0000"
 
+	// flags
+	var notificationFlag = flag.Bool("notification", false, "Pass -notification to send notifiaction when battery is low")
+	flag.Parse()
+
 	// Read charging status information from kernel
 	// pseudo-file-system mounted at /sys.
 	b, err := battery()
@@ -84,13 +103,15 @@ func main() {
 	}
 
 	output = fmt.Sprintf("bat: %.2f%%", b)
+	fullText = output
+	shortText = output
 	if b < 20 {
-		// if notification flag
+		if *notificationFlag {
+			notify("Battery low", fullText)
+		}
 	} else {
 		color = "#000000"
 	}
-	fullText = output
-	shortText = output
 
 	fmt.Fprintf(os.Stdout, "%s\n%s\n%s", fullText, shortText, color)
 	os.Exit(0)
