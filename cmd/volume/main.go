@@ -43,7 +43,7 @@ func volume() (int, error) {
 
 		// Walk over received command output and check
 		// for speaker sub-string.
-		if strings.Contains(text, "Front Left: Playback") {
+		if strings.Contains(text, "Mono: Playback") {
 
 			// If speakers are muted, return -1.
 			if strings.Contains(text, "[off]") {
