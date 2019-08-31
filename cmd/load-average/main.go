@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 	"strings"
@@ -11,47 +12,35 @@ import (
 
 const sysfs = "/proc/loadavg"
 
-func load1() (float64, error){
+func load(i int) (float64, error){
 	loadRaw, err := ioutil.ReadFile("/proc/loadavg")
 	if err != nil {
 		return -1, err
 	}
 	// Remove surrounding space and split at inner spaces.
 	loadStrings := strings.Split(strings.TrimSpace(string(loadRaw)), " ")
-	loadFloat, err := strconv.ParseFloat(loadStrings[0], 64)
+	loadFloat, err := strconv.ParseFloat(loadStrings[i], 64)
 	if err != nil {
 		return -1, err
 	}
 	return loadFloat, err
 }
 
-func load5() (float64, error){
+func process() (int, error){
 	loadRaw, err := ioutil.ReadFile("/proc/loadavg")
 	if err != nil {
 		return -1, err
 	}
 	// Remove surrounding space and split at inner spaces.
 	loadStrings := strings.Split(strings.TrimSpace(string(loadRaw)), " ")
-	loadFloat, err := strconv.ParseFloat(loadStrings[1], 64)
+	loadStrings = strings.Split(strings.TrimSpace(string(loadStrings[3])), "/")
+	loadInt, err := strconv.Atoi(loadStrings[1])
 	if err != nil {
 		return -1, err
 	}
-	return loadFloat, err
+	return loadInt, err
 }
 
-func load15() (float64, error){
-	loadRaw, err := ioutil.ReadFile("/proc/loadavg")
-	if err != nil {
-		return -1, err
-	}
-	// Remove surrounding space and split at inner spaces.
-	loadStrings := strings.Split(strings.TrimSpace(string(loadRaw)), " ")
-	loadFloat, err := strconv.ParseFloat(loadStrings[2], 64)
-	if err != nil {
-		return -1, err
-	}
-	return loadFloat, err
-}
 func main() {
 
 	// Set display texts to defaults.a
@@ -60,9 +49,20 @@ func main() {
 	var shortText string = "error"
 	var color string = "#ff0000"
 
+	// flags
+	var timeFlag = flag.Int("time", 1, "Set -time to set the cpu load average wanted [0 - for 1 min, 1 - for 5 min, 2 - for 15 min]")
+	var processFlag = flag.Bool("process", false, "Pass -process to show the number of runninn process")
+	flag.Parse()
+
 	// Read current load average information from kernel
 	// pseudo-file-system mounted at /proc.
-	load, err := load5()
+	var l float64
+	var err error
+	if *timeFlag <= 2 {
+		l, err = load(*timeFlag)
+	} else {
+		l, err = load(1)
+	}
 	if err != nil {
 
 		// Write an error to STDERR, fallback display values
@@ -72,13 +72,18 @@ func main() {
 		os.Exit(0)
 	}
 
+	output = fmt.Sprintf("CPU: %.2f", l)
+	var p int
+	if *processFlag {
+		p, err = process()
+		output = fmt.Sprintf("CPU: %.2f  Process: %d", l, p)
+	}
 
 	// Depending on length of display text, construct
 	// final output string.
-	output = fmt.Sprintf("CPU: %.2f", load)
 	fullText = output
 	shortText = output
-	if load > 0.8 {
+	if l > 0.8 {
 		color = "#ff0000"
 	} else {
 		color = "#ffffff"
