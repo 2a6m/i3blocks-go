@@ -103,7 +103,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	output = fmt.Sprintf("bat: %.2f%%", b)
+	output = fmt.Sprintf("Bat: %.2f%%", b)
 	fullText = output
 	shortText = output
 	if b < float64(*levelFlag) {
@@ -111,7 +111,7 @@ func main() {
 			notify("Battery low", fullText)
 		}
 	} else {
-		color = "#000000"
+		color = "#ffffff"
 	}
 
 	fmt.Fprintf(os.Stdout, "%s\n%s\n%s\n", fullText, shortText, color)

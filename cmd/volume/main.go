@@ -85,7 +85,7 @@ func main() {
 
 	// Check if speakers are muted. Set final
 	// output string accordingly.
-	output = fmt.Sprintf("[%s] vol: %d%%", status, vol)
+	output = fmt.Sprintf("Vol [%s]: %d%%", status, vol)
 	fullText = output
 	shortText = output
 	if status == "off" {
