@@ -59,17 +59,17 @@ func main() {
 
 	// Depending on length of display text, construct
 	// final output string.
+	l = l / float64(runtime.NumCPU())
 	output = fmt.Sprintf("CPU: %.2f", l)
 	fullText = output
 	shortText = output
-	nCore := float64(runtime.NumCPU())
-	if l >= nCore {
+	if l >= 1 {
 		color = "#ff0000"
-	} else if l >= 0.75 * nCore {
+	} else if l >= 0.75 {
 		color = "#ff8800"
-	} else if l >= 0.5 * nCore {
+	} else if l >= 0.5 {
 		color = "#ffff00"
-	} else if l >= 0.25 * nCore {
+	} else if l >= 0.25 {
 		color = "#88ff00"
 	} else {
 		color = "#00ff00"
