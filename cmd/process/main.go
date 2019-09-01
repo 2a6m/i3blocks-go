@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"os"
 	"strings"
@@ -12,18 +11,19 @@ import (
 
 const sysfs = "/proc/loadavg"
 
-func load(i int) (float64, error){
+func process() (int, error){
 	loadRaw, err := ioutil.ReadFile("/proc/loadavg")
 	if err != nil {
 		return -1, err
 	}
 	// Remove surrounding space and split at inner spaces.
 	loadStrings := strings.Split(strings.TrimSpace(string(loadRaw)), " ")
-	loadFloat, err := strconv.ParseFloat(loadStrings[i], 64)
+	loadStrings = strings.Split(strings.TrimSpace(string(loadStrings[3])), "/")
+	loadInt, err := strconv.Atoi(loadStrings[1])
 	if err != nil {
 		return -1, err
 	}
-	return loadFloat, err
+	return loadInt, err
 }
 
 func main() {
@@ -34,19 +34,9 @@ func main() {
 	var shortText string = "error"
 	var color string = "#ff0000"
 
-	// flags
-	var timeFlag = flag.Int("time", 1, "Set -time to set the cpu load average wanted [0 - for 1 min, 1 - for 5 min, 2 - for 15 min]")
-	flag.Parse()
-
 	// Read current load average information from kernel
 	// pseudo-file-system mounted at /proc.
-	var l float64
-	var err error
-	if *timeFlag <= 2 {
-		l, err = load(*timeFlag)
-	} else {
-		l, err = load(1)
-	}
+	p, err := process()
 	if err != nil {
 
 		// Write an error to STDERR, fallback display values
@@ -58,14 +48,10 @@ func main() {
 
 	// Depending on length of display text, construct
 	// final output string.
-	output = fmt.Sprintf("CPU: %.2f", l)
+	output = fmt.Sprintf("Process: %d", p)
 	fullText = output
 	shortText = output
-	if l > 0.8 {
-		color = "#ff0000"
-	} else {
-		color = "#ffffff"
-	}
+	color = "#ffffff"
 
 	// Write out gathered information to STDOUT.
 	fmt.Fprintf(os.Stdout, "%s\n%s\n%s\n", fullText, shortText, color)
