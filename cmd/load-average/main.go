@@ -63,12 +63,16 @@ func main() {
 	fullText = output
 	shortText = output
 	nCore := float64(runtime.NumCPU())
-	if l >= 0.8 * nCore {
-		color = "#ffff00"
-	} else if l >= nCore {
+	if l >= nCore {
 		color = "#ff0000"
+	} else if l >= 0.75 * nCore {
+		color = "#ff8800"
+	} else if l >= 0.5 * nCore {
+		color = "#ffff00"
+	} else if l >= 0.25 * nCore {
+		color = "#88ff00"
 	} else {
-		color = "#ffffff"
+		color = "#00ff00"
 	}
 
 	// Write out gathered information to STDOUT.
