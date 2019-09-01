@@ -6,6 +6,7 @@ import (
 	"os"
 	"strings"
 	"strconv"
+	"runtime"
 
 	"io/ioutil"
 )
@@ -61,7 +62,10 @@ func main() {
 	output = fmt.Sprintf("CPU: %.2f", l)
 	fullText = output
 	shortText = output
-	if l > 0.8 {
+	nCore := float64(runtime.NumCPU())
+	if l >= 0.8 * nCore {
+		color = "#ffff00"
+	} else if l >= nCore {
 		color = "#ff0000"
 	} else {
 		color = "#ffffff"
