@@ -103,15 +103,17 @@ func main() {
 		os.Exit(0)
 	}
 
-	output = fmt.Sprintf("Bat: %.2f%%", b)
+	output = fmt.Sprintf("%.2f%%", b)
 	fullText = output
 	shortText = output
 	if b < float64(*levelFlag) {
 		if *notificationFlag {
 			notify("Battery low", fullText)
+			color = "#ff0000"
 		}
 	} else {
-		color = "#ffffff"
+		color = "" // use default color define by i3blocks
+
 	}
 
 	fmt.Fprintf(os.Stdout, "%s\n%s\n%s\n", fullText, shortText, color)

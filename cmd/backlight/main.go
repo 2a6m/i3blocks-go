@@ -70,10 +70,10 @@ func main() {
 		os.Exit(0)
 	}
 
-	output = fmt.Sprintf("Bright: %.2f%%", b)
+	output = fmt.Sprintf("%.2f%%", b)
 	fullText = output
 	shortText = output
-	color = "#ffffff"
+	color = "" // use default color define by i3blocks
 
 	fmt.Fprintf(os.Stdout, "%s\n%s\n%s\n", fullText, shortText, color)
 	os.Exit(0)

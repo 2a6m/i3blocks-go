@@ -48,10 +48,10 @@ func main() {
 
 	// Depending on length of display text, construct
 	// final output string.
-	output = fmt.Sprintf("Process: %d", p)
+	output = fmt.Sprintf("%d", p)
 	fullText = output
 	shortText = output
-	color = "#ffffff"
+	color = "" // use default color define by i3blocks
 
 	// Write out gathered information to STDOUT.
 	fmt.Fprintf(os.Stdout, "%s\n%s\n%s\n", fullText, shortText, color)

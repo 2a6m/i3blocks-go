@@ -60,7 +60,7 @@ func main() {
 	// Depending on length of display text, construct
 	// final output string.
 	l = l / float64(runtime.NumCPU())
-	output = fmt.Sprintf("CPU: %.2f", l)
+	output = fmt.Sprintf("%.2f", l)
 	fullText = output
 	shortText = output
 	if l >= 1 {

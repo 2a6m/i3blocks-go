@@ -85,13 +85,13 @@ func main() {
 
 	// Check if speakers are muted. Set final
 	// output string accordingly.
-	output = fmt.Sprintf("Vol [%s]: %d%%", status, vol)
+	output = fmt.Sprintf("[%s] %d%%", status, vol)
 	fullText = output
 	shortText = output
 	if status == "off" {
 		color = "#ffff00"
 	} else {
-		color = "#ffffff"
+		color = "" // use default color set by i3blocks
 	}
 
 	// Write out gathered information to STDOUT.

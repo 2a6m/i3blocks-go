@@ -16,7 +16,7 @@ func main() {
 	// Set display texts to defaults.
 	var fullText string
 	var shortText string
-	var color string = "#ffffff"
+	var color string = "" // use default color define by i3blocks
 
 	// Retrieve current time.
 	nowTime := time.Now()

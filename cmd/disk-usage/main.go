@@ -58,7 +58,7 @@ func main() {
 	if (disk.Used / disk.All) > 0.8 {
 		color = "#ff0000"
 	} else {
-		color = "#ffffff"
+		color = "" // use default color define by i3blocks
 	}
 
 	fmt.Fprintf(os.Stdout, "%s\n%s\n%s\n", fullText, shortText, color)
